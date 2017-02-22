@@ -6,6 +6,8 @@ director_uuid: ((director_uuid))
 releases:
 - name: prometheus
   version: latest
+- name: routing
+  version: latest
 
 stemcells:
 - alias: trusty
@@ -24,8 +26,23 @@ instance_groups:
   jobs:
   - name: nginx
     release: prometheus
+  - name: route_registrar
+    release: routing
   properties:
     nginx: ((nginx.local_properties))
+    nats:
+      user: ((nats.username))
+      port: 4222
+      password: ((nats.password))
+      machines: ((nats.machines))
+    route_registrar:
+      routes:
+      - name: grafana
+        port: 3000
+        uris:
+        - ((grafana_route))
+        registration_interval: 20s
+
   env:
     bosh:
       password: ((nginx.vm_password))
