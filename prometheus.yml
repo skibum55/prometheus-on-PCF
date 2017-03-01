@@ -67,6 +67,11 @@ instance_groups:
     release: prometheus
   properties:
     grafana:
+      auth:
+        anonymous:
+          enabled: true
+          org_name: anonymous
+          org_role: viewer
       dashboards:
         json:
           enabled: true
