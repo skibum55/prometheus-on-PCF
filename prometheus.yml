@@ -101,6 +101,7 @@ instance_groups:
           - /var/vcap/packages/cloudfoundry_dashboards/prometheus_cf_exporter.json
           - /var/vcap/packages/cloudfoundry_dashboards/prometheus_firehose_exporter.json
           - /var/vcap/packages/cloudfoundry_dashboards/overview_kpis.json
+          - /var/vcap/packages/cloudfoundry_dashboards/status.json
           # - /var/vcap/packages/mysql_dashboards/mysql_innodb.json
           # - /var/vcap/packages/mysql_dashboards/mysql_innodb_advanced.json
           # - /var/vcap/packages/mysql_dashboards/mysql_myisam.json
