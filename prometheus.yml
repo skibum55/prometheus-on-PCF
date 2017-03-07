@@ -70,7 +70,7 @@ instance_groups:
       auth:
         anonymous:
           enabled: true
-          org_name: anonymous
+          org_name: Main Org.
           org_role: viewer
       dashboards:
         json:
