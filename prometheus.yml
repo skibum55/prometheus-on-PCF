@@ -38,7 +38,7 @@ instance_groups:
     route_registrar:
       routes:
       - name: grafana
-        port: 3000
+        port: 80
         uris:
         - ((grafana_route))
         registration_interval: 20s
