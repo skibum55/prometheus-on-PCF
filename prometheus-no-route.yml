@@ -54,8 +54,18 @@ instance_groups:
     release: prometheus
   - name: mysql_dashboards
     release: prometheus
+  - name: p_rabbitmq_dashboards
+    release: prometheus
+  - name: p_redis_dashboards
+    release: prometheus
+  - name: probe_dashboards
+    release: prometheus
+  - name: prometheus_dashboards
+    release: prometheus
   properties:
     grafana:
+      security:
+        admin_password: ((grafana.admin_password))
       auth:
         anonymous:
           enabled: true
@@ -66,48 +76,14 @@ instance_groups:
           enabled: true
       prometheus:
         dashboard_files:
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_apps_latency.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_apps_requests.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_apps_response_size.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_apps_system.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_bbs.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_cc.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_cells_capacity.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_component_metrics.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_diego_auctions.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_diego_health.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_doppler_server.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_etcd.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_etcd_operations.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_garden_linux.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_lrps_tasks.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_metron_agent.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_metron_agent_doppler.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_route_emitter.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_router.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_summary.json
-          - /var/vcap/packages/cloudfoundry_dashboards/cf_uaa.json
-          - /var/vcap/packages/cloudfoundry_dashboards/prometheus_cf_exporter.json
-          - /var/vcap/packages/cloudfoundry_dashboards/prometheus_firehose_exporter.json
-          - /var/vcap/packages/cloudfoundry_dashboards/overview_kpis.json
-          - /var/vcap/packages/cloudfoundry_dashboards/status.json
-          # - /var/vcap/packages/mysql_dashboards/mysql_innodb.json
-          # - /var/vcap/packages/mysql_dashboards/mysql_innodb_advanced.json
-          # - /var/vcap/packages/mysql_dashboards/mysql_myisam.json
-          # - /var/vcap/packages/mysql_dashboards/mysql_overview.json
-          # - /var/vcap/packages/mysql_dashboards/mysql_performance_schema.json
-          # - /var/vcap/packages/mysql_dashboards/mysql_query_response.json
-          # - /var/vcap/packages/mysql_dashboards/mysql_replication.json
-          # - /var/vcap/packages/mysql_dashboards/mysql_table.json
-          # - /var/vcap/packages/mysql_dashboards/mysql_tokudb.json
-          # - /var/vcap/packages/mysql_dashboards/mysql_user_statistics.json
-          - /var/vcap/packages/system_dashboards/system_disk_performance.json
-          - /var/vcap/packages/system_dashboards/system_disk_space.json
-          - /var/vcap/packages/system_dashboards/system_overview.json
-          - /var/vcap/packages/bosh_dashboards/bosh_deployments.json
-          - /var/vcap/packages/bosh_dashboards/bosh_jobs.json
-          - /var/vcap/packages/bosh_dashboards/bosh_overview.json
-          - /var/vcap/packages/bosh_dashboards/bosh_processes.json
+          - /var/vcap/packages/bosh_dashboards/*.json
+          - /var/vcap/packages/cloudfoundry_dashboards/*.json
+          - /var/vcap/packages/mysql_dashboards/*.json
+          - /var/vcap/packages/p_rabbitmq_dashboards/*.json
+          - /var/vcap/packages/p_redis_dashboards/*.json
+          - /var/vcap/packages/probe_dashboards/*.json
+          - /var/vcap/packages/prometheus_dashboards/*.json
+          - /var/vcap/packages/system_dashboards/*.json
   env:
     bosh:
       password: ((grafana.vm_password))
@@ -283,6 +259,8 @@ instance_groups:
           url: ((bosh_exporter.bosh.url))
           ca_cert: ((bosh_exporter.bosh.ca_cert))
           collectors: Deployments,Jobs,ServiceDiscovery
+        metrics:
+          environment: cf
   - name: cf_exporter
     release: prometheus
     properties:
@@ -292,6 +270,8 @@ instance_groups:
           username: ((cf_exporter.cf.username))
           password: ((cf_exporter.cf.password))
         skip_ssl_verify: true
+        metrics:
+          environment: cf
   # - name: mysqld_exporter
   #   release: prometheus
   #   properties:
@@ -313,6 +293,8 @@ instance_groups:
         web:
           port: 9186
         skip_ssl_verify: true
+        metrics:
+          environment: cf
   # - name: cadvisor
   #   release: prometheus
   - name: collectd_exporter
