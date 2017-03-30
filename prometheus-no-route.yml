@@ -269,6 +269,7 @@ instance_groups:
           api_url: ((cf_exporter.cf.api_url))
           username: ((cf_exporter.cf.username))
           password: ((cf_exporter.cf.password))
+          deployment_name: ((cf_exporter.cf.deployment_name))
         skip_ssl_verify: true
         metrics:
           environment: cf
