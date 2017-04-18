@@ -79,7 +79,7 @@ instance_groups:
         admin_password: ((grafana.admin_password))
       auth:
         anonymous:
-          enabled: true
+          enabled: ((grafana.anonymous_enabled))
           org_name: Main Org.
           org_role: viewer
       dashboards:
