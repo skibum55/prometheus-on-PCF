@@ -18,6 +18,7 @@ grafana:
   vm_password: echo -n 'YOUR_PASSWORD' | mkpasswd --method=sha-512 --password-fd=0
   persistent_disk_type: 1024
   admin_password: CHANGE_ME
+  anonymous_enabled: false
 alertmanager:
   vm_type: micro
   vm_password: echo -n 'YOUR_PASSWORD' | mkpasswd --method=sha-512 --password-fd=0
